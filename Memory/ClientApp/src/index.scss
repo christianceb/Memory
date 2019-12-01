@@ -1,3 +1,31 @@
+body {
+  background: #272822;
+}
+
+.max-height {
+  height: 100vh;
+}
+
+.chatbox {
+  display: flex;
+  flex-direction: column;
+
+  .conversation-title {
+    /*box-shadow:rgba(0, 0, 0, 0.25) 0px 12px 11px -9px inset;*/
+    flex: 0 0 auto;
+  }
+  .conversation {
+    flex: 1 1 auto;
+  }
+  .new-message {
+    flex: 0 0 auto;
+
+    textarea {
+      resize: none;
+    }
+  }
+}
+
 @media (max-width: 767px) {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     body {
