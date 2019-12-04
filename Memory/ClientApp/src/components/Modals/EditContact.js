@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 
-export class NewContact extends Component {
+export class EditContact extends Component {
   constructor(props) {
     super(props)
 
@@ -17,20 +17,22 @@ export class NewContact extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.handleTextInput = this.handleTextInput.bind(this)
-    this.saveUser = this.saveUser.bind(this)
+    this.edit = this.edit.bind(this)
   }
 
   toggle() {
-    this.setState( { activated: ! this.state.activated } )
+    this.setState( {
+      activated: ! this.state.activated,
+      contact: this.props.current
+    } )
   }
 
-  saveUser( event ) {
+  edit( event ) {
     event.preventDefault();
 
-    this.props.add( this.state.contact );
+    this.props.amend( this.state.contact );
     
     this.setState( {
-      activated: false,
       contact: this.draft
     } );
   }
@@ -53,10 +55,10 @@ export class NewContact extends Component {
     return (
       <Modal show={this.state.activated} onHide={this.toggle} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Contact</Modal.Title>
+          <Modal.Title>Edit Contact</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={this.saveUser}>
+          <Form onSubmit={this.edit}>
             <Form.Group controlId="contactName">
               <Form.Label>Name</Form.Label>
               <Form.Control type="text" placeholder="Enter name" name="name" value={this.state.contact.name} onChange={this.handleTextInput} />

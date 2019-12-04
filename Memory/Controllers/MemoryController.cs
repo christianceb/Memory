@@ -1,46 +1,46 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CsvHelper;
+using Memory.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Memory.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MemoryController : ControllerBase
+  public class MemoryController : Controller
+  {
+    [Route("api/Memory")]
+    [HttpPost]
+    public ActionResult AddComment( IFormFile File )
     {
-        // GET: api/Memory
-        [HttpGet]
-        public IEnumerable<string> Get()
+      StreamReader streamReader = new StreamReader(File.OpenReadStream());
+
+      List<CSVRow> rawMessages;
+      using (CsvReader csv = new CsvReader(streamReader))
+      {
+        rawMessages = csv.GetRecords<CSVRow>().ToList();
+      }
+
+      Contacts contacts = new Contacts();
+
+      foreach ( CSVRow rawMessage in rawMessages )
+      {
+        Contact found = contacts.FindContact(rawMessage.Number);
+
+        if ( found == null )
         {
-            return new string[] { "value1", "value2" };
+          found = contacts.Add( rawMessage.Name, rawMessage.Number );
         }
 
-        // GET: api/Memory/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        contacts.AddMessage( found, rawMessage.Message, rawMessage.Date, rawMessage.Time, rawMessage.Type );
+      }
 
-        // POST: api/Memory
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+      contacts.ReorderAll();
 
-        // PUT: api/Memory/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      return Json( contacts.List );
     }
+  }
 }

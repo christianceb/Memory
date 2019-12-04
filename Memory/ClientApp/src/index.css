@@ -1,23 +1,34 @@
-body {
-  background: #272822; }
-
-.max-height {
-  height: 100vh; }
-
-.chatbox {
-  display: flex;
-  flex-direction: column; }
-  .chatbox .conversation-title {
-    /*box-shadow:rgba(0, 0, 0, 0.25) 0px 12px 11px -9px inset;*/
-    flex: 0 0 auto; }
-  .chatbox .conversation {
-    flex: 1 1 auto; }
-  .chatbox .new-message {
-    flex: 0 0 auto; }
-    .chatbox .new-message textarea {
-      resize: none; }
-
-@media (max-width: 767px) {
-  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-  body {
-    padding-top: 50px; } }
+#root {
+  background: #272822;
+  transition: all ease 0.5s; }
+  #root .max-height {
+    height: 100vh; }
+  #root .contacts {
+    display: flex;
+    flex-direction: column; }
+    #root .contacts nav .navbar {
+      flex: 0 0 auto; }
+    #root .contacts .list-group {
+      flex: 1 1 auto;
+      overflow-y: auto; }
+  #root .chatbox {
+    display: flex;
+    flex-direction: column; }
+    #root .chatbox .conversation-title {
+      /*box-shadow:rgba(0, 0, 0, 0.25) 0px 12px 11px -9px inset;*/
+      flex: 0 0 auto; }
+    #root .chatbox .conversation {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      background: #3d3e32;
+      transition: all ease 0.5s; }
+      #root .chatbox .conversation .card {
+        max-width: 75%; }
+    #root .chatbox .new-message {
+      flex: 0 0 auto; }
+      #root .chatbox .new-message textarea {
+        resize: none; }
+  #root.myEyesStareIntoTheSun {
+    background: #fff; }
+    #root.myEyesStareIntoTheSun .chatbox .conversation {
+      background: #eee; }

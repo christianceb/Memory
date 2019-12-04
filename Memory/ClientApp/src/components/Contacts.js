@@ -2,17 +2,28 @@
 import { ListGroup } from 'react-bootstrap';
 
 export class Contacts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { contacts: [] };
-  }
-
   render() {
+    const contacts = this.props.list.map( contact => {
+      let active = false;
+
+      if ( this.props.current !== null ) {
+        active = contact.id === this.props.current.id
+      }
+
+      return (
+        <ListGroup.Item
+          variant="secondary"
+          key={contact.id}
+          active={active}
+          onClick={() => this.props.setCurrent(contact)}
+          action>
+          {contact.name}
+        </ListGroup.Item>
+      )
+    } );
+
     return (
-      <ListGroup>
-        <ListGroup.Item action href="#link1">Link 1</ListGroup.Item>
-        <ListGroup.Item action href="#link2">Link 2</ListGroup.Item>
-      </ListGroup>
+      <ListGroup className="mb-1">{contacts}</ListGroup>
     );
   }
-}
+} 

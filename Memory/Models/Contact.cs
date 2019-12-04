@@ -7,17 +7,39 @@ namespace Memory.Models
 {
   public class Contact
   {
+    public int Id { get; private set; }
+    public string Name { get; set; }
+    public string Number { get; set; }
     public List<Message> Messages { get; set; }
-
     public DateTime LastMessage
     {
       get
       {
-        return new DateTime();
+        int id;
+        int tail;
+
+        DateTime lastMessage = DateTime.MinValue;
+
+        List<Message> sortedMessages = new List<Message>(
+          Messages.OrderBy(m => m.DateTime).Reverse().ToList()
+        );
+
+        tail = sortedMessages.Count;
+
+        if ( tail > 0)
+        {
+          lastMessage = sortedMessages[(tail - 1)].DateTime;
+        }
+
+        return lastMessage;
       }
     }
 
-    public string Name { get; set; }
-    public string ContactNumber { get; set; }
+    public Contact( int id )
+    {
+      Id = id;
+
+      Messages = new List<Message>();
+    }
   }
 }
