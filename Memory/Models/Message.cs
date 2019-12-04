@@ -7,9 +7,14 @@ namespace Memory.Models
 {
   public class Message
   {
-    public int Id { get; set; }
-    public string Author { get; set; }
+    public int Id { get; private set; }
     public DateTime DateTime { get; set; }
-    public bool Content { get; set; }
+    public bool Sent { get; set; }
+    public string Content { get; set; }
+
+    public Message( int id )
+    {
+      Id = id;
+    }
   }
 }

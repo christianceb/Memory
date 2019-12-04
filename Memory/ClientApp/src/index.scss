@@ -1,34 +1,63 @@
-body {
+#root {
   background: #272822;
-}
+  transition: all ease 0.5s;
 
-.max-height {
-  height: 100vh;
-}
-
-.chatbox {
-  display: flex;
-  flex-direction: column;
-
-  .conversation-title {
-    /*box-shadow:rgba(0, 0, 0, 0.25) 0px 12px 11px -9px inset;*/
-    flex: 0 0 auto;
+  .max-height {
+    height: 100vh;
   }
-  .conversation {
-    flex: 1 1 auto;
-  }
-  .new-message {
-    flex: 0 0 auto;
-
-    textarea {
-      resize: none;
+  
+  .contacts {
+    display: flex;
+    flex-direction: column;
+  
+    nav {
+      .navbar {
+        flex: 0 0 auto;
+      }
+    }
+  
+    .list-group {
+      flex: 1 1 auto;
+      overflow-y: auto;
     }
   }
-}
-
-@media (max-width: 767px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    body {
-        padding-top: 50px;
+  
+  .chatbox {
+    display: flex;
+    flex-direction: column;
+  
+    .conversation-title {
+      /*box-shadow:rgba(0, 0, 0, 0.25) 0px 12px 11px -9px inset;*/
+      flex: 0 0 auto;
     }
+  
+    .conversation {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      background: #3d3e32;
+      transition: all ease 0.5s;
+  
+      .card {
+        max-width: 75%;
+      }
+    }
+    
+    .new-message {
+      flex: 0 0 auto;
+  
+      textarea {
+        resize: none;
+      }
+    }
+  }
+
+  &.myEyesStareIntoTheSun {
+    background: #fff;
+
+    .chatbox {
+      .conversation {
+        background: #eee;
+      }
+    }
+  }
 }
