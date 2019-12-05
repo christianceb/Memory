@@ -40,6 +40,7 @@ The CSV Columns required on this application is derived from the exported column
 All date/times values are to be formatted in ISO 8601 definitions. For some reason, SMS Backup & Restore split the two. Examples of these values are:
 
 Date: 2011-09-11, 2012-12-21
+
 Time: 03:00:00, 16:20:00
 
 ### Type
