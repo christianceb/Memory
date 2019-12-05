@@ -7,6 +7,7 @@ import { Conversation } from './components/Conversation';
 import { ContactBar } from './components/ContactBar';
 import { ContactsBar } from './components/ContactsBar';
 
+import { CommonModal as CommonModal } from './components/Modals/CommonModal';
 import { DataSource as DataSourceModal } from './components/Modals/DataSource';
 import { NewContact as NewContactModal } from './components/Modals/NewContact';
 import { EditContact as EditContactModal } from './components/Modals/EditContact';
@@ -17,12 +18,17 @@ export default class App extends Component {
 
     this.state = {
       current: null,
-      contacts: []
+      contacts: [],
+      modal: {
+        title: null,
+        content:null
+      }
     }
 
     this.dataSourceModal = React.createRef()
     this.newContactModal = React.createRef()
     this.editContactModal = React.createRef()
+    this.commonModal = React.createRef()
 
     // Bind this to functions because for some reason this is still "ES6" >:(
     this.toggleDataSourceModal = this.toggleDataSourceModal.bind(this)
@@ -49,30 +55,53 @@ export default class App extends Component {
 
   uploadSource = async ( file ) => {
     if ( file.type === "application/json" ) {
-      const reader = new FileReader();
-      reader.readAsText(file, "UTF-8");
-
-      reader.onload = ( event ) => {
-        this.setState( {
-          contacts: JSON.parse( event.target.result )
-        } );
+      try {
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+  
+        reader.onload = ( event ) => {
+          this.setState( {
+            contacts: JSON.parse( event.target.result )
+          } );
+        }
+      }
+      catch ( exception ) {
+        this.setState({
+          modal: {
+            title: "Error",
+            content: "Error processing JSON. Will continue with no data source."
+          }
+        })
+        this.toggleCommonModal()
       }
     }
     else {
       const data = new FormData();
       data.append("file", file)
   
-      let response = await fetch(
-        'api/Memory',
-        {
-          method: "POST",
-          body: data
-        }
-      )
+      
+      try {
+        let response = await fetch(
+          'api/Memory',
+          {
+            method: "POST",
+            body: data
+          }
+        )
+        
+        let json = await response.json();
+        
+        this.processCSVSource(json)
+      } catch ( exception ) {
+        this.setState({
+          modal: {
+            title: "Error",
+            content: "Error processing CSV. Will continue with no data source."
+          }
+        })
+        this.toggleCommonModal()
+      }
   
-      let json = await response.json();
-  
-      this.processCSVSource(json)
     }
 
     this.toggleDataSourceModal()
@@ -229,6 +258,7 @@ export default class App extends Component {
   toggleDataSourceModal = () => this.dataSourceModal.current.toggle();
   toggleNewContact = () => this.newContactModal.current.toggle();
   toggleEditContact = () => this.editContactModal.current.toggle();
+  toggleCommonModal = () => this.commonModal.current.toggle();
 
   render() {
     return (
@@ -249,6 +279,7 @@ export default class App extends Component {
         <DataSourceModal ref={this.dataSourceModal} upload={this.uploadSource}/>
         <NewContactModal ref={this.newContactModal} add={this.addContact} />
         <EditContactModal ref={this.editContactModal} current={this.state.current} amend={this.editContact} />
+        <CommonModal ref={this.commonModal} title={this.state.modal.title} content={this.state.modal.content} />
       </React.Fragment>
     )
   }
