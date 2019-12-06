@@ -6,6 +6,7 @@ import { NewMessage } from './components/NewMessage';
 import { Conversation } from './components/Conversation';
 import { ContactBar } from './components/ContactBar';
 import { ContactsBar } from './components/ContactsBar';
+import Help from './components/Help';
 
 import { CommonModal as CommonModal } from './components/Modals/CommonModal';
 import { DataSource as DataSourceModal } from './components/Modals/DataSource';
@@ -268,6 +269,7 @@ export default class App extends Component {
             <Col xs={12} lg={3} className={ this.state.current === null ? "max-height contacts" : "max-height contacts d-none d-lg-flex" }>
               <ContactsBar toggleNewContact={this.toggleNewContact} iHateMyEyesMode={this.iHateMyEyesMode} toggleDataSourceModal={this.toggleDataSourceModal} saveDataSource={this.saveDataSource} />
               <Contacts list={this.state.contacts} current={this.state.current} setCurrent={this.setCurrent} />
+              <Help />
             </Col>
             <Col xs={12} lg={9} className={ this.state.current !== null ? "max-height chatbox" : "max-height d-none d-lg-flex chatbox" }>
               <ContactBar current={this.state.current} edit={this.toggleEditContact} delete={this.deleteContact} close={this.closeConversation} />
