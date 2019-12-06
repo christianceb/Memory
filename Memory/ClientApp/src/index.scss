@@ -20,6 +20,14 @@
       flex: 1 1 auto;
       overflow-y: auto;
     }
+
+    .help {
+      text-align: center;
+      
+      a {
+        text-decoration: none;
+      }
+    }
   }
   
   .chatbox {

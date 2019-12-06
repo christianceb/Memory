@@ -11,6 +11,10 @@
     #root .contacts .list-group {
       flex: 1 1 auto;
       overflow-y: auto; }
+    #root .contacts .help {
+      text-align: center; }
+      #root .contacts .help a {
+        text-decoration: none; }
   #root .chatbox {
     display: flex;
     flex-direction: column; }
